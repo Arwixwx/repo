@@ -56,20 +56,20 @@ def streaming(url):
 
     print(list(zip(titles, dates, links)))
 
-    with open('accounts/streaming.json') as f:
+    with open('app/app/accounts/streaming.json') as f:
         accounts_list = json.load(f)
         accounts_list['account'] = []
 
     for title, date, link in zip(titles, dates, links):
         
-        with open('accounts/streaming.json') as json_file:
+        with open('app/app/accounts/streaming.json') as json_file:
             accounts_list['account'].append({
                 'title':title,
                 'date':date,
                 'link':link
             })
     
-        with open('accounts/streaming.json', 'w') as f:
+        with open('app/app/accounts/streaming.json', 'w') as f:
             json.dump(accounts_list, f)
 
 

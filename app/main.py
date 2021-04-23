@@ -12,7 +12,7 @@ def streaming():
     titles = []
     dates = []
     links = []
-    with open('accounts/streaming.json') as json_file:
+    with open('app/accounts/streaming.json') as json_file:
         data = json.load(json_file)
         for account in data['account']:
             links.append(account['link'])
@@ -27,7 +27,7 @@ def vpn():
     titles = []
     dates = []
     links = []
-    with open('accounts/vpn.json') as json_file:
+    with open('app/accounts/vpn.json') as json_file:
         data = json.load(json_file)
         for account in data['account']:
             links.append(account['link'])
@@ -42,7 +42,7 @@ def gaming():
     titles = []
     dates = []
     links = []
-    with open('accounts/gaming.json') as json_file:
+    with open('app/accounts/gaming.json') as json_file:
         data = json.load(json_file)
         for account in data['account']:
             links.append(account['link'])
@@ -57,7 +57,7 @@ def music():
     titles = []
     dates = []
     links = []
-    with open('accounts/music.json') as json_file:
+    with open('app/accounts/music.json') as json_file:
         data = json.load(json_file)
         for account in data['account']:
             links.append(account['link'])
