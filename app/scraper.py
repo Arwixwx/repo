@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 
 
-def streaming(url):
+def scraper(url, foldername):
     options = webdriver.ChromeOptions() 
     options.add_argument(r"user-data-dir=C:\Users\Will\AppData\Local\Google\Chrome\User Data\Default")
 
@@ -56,22 +56,24 @@ def streaming(url):
 
     print(list(zip(titles, dates, links)))
 
-    with open('app/app/accounts/streaming.json') as f:
-        accounts_list = json.load(f)
-        accounts_list['account'] = []
-
-    for title, date, link in zip(titles, dates, links):
-        
-        with open('app/app/accounts/streaming.json') as json_file:
-            accounts_list['account'].append({
+        for title, date, link in zip(titles, dates, links):     
+        with open('app/accounts/' + foldername + '.json') as f:
+            data = json.load(f)
+            data['account'].insert(0, {
                 'title':title,
                 'date':date,
                 'link':link
             })
+
+            while len(data['account']) > 25:
+                data['account'].pop(-1)
     
-        with open('app/app/accounts/streaming.json', 'w') as f:
-            json.dump(accounts_list, f)
+        with open('app/accounts/' + foldername + '.json', 'w') as f:
+            json.dump(data, f)
 
 
 if __name__ == '__main__':
-    streaming('https://cracked.to/Forum-Streaming--108?sortby=started&order=desc&datecut=9999&prefix=0')
+    scraper('https://cracked.to/Forum-Accounts?sortby=lastpost&order=desc&datecut=9999&prefix=8', 'vpn')
+    scraper('https://cracked.to/Forum-Streaming--108?sortby=started&order=desc&datecut=9999&prefix=0', 'streaming')
+    scraper('https://cracked.to/Forum-Gaming--109?sortby=started&order=desc&datecut=9999&prefix=0', 'gaming')
+    scraper('https://cracked.to/Forum-Accounts?sortby=lastpost&order=desc&datecut=9999&prefix=10', 'music')
