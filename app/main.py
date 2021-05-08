@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask_admin import Admin
 import json
 
 app = Flask(__name__)
@@ -6,6 +7,34 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/admin/', methods = ['GET', 'POST'])
+def admin():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+
+        i = 0
+
+        username = request.form['user']
+        password = request.form['pass']
+        
+        with open('app/accounts/users.json') as f:
+            data = json.load(f)
+            for user in data['users']:
+                if user['name'] == username and user['pass'] == password:
+                    return redirect(url_for('dashboard'))
+                else:
+                    i += 1
+            if len(data['users']) == i:
+                return 'No'
+            else:
+                return redirect(url_for('dashboard'))
+
+@app.route('/dashboard/')
+def dashboard():
+    return render_template('dashboard.html')
+
 
 @app.route('/post/', methods = ['POST'])
 def post():
@@ -15,6 +44,12 @@ def post():
     titles = req['titles']
     dates =  req['dates']
     links = req['links']
+    api_key = req['key']
+
+    if api_key == r'0a593a72-b9b3-409a-a177-3fc289d091d0':
+        pass
+    else:
+        return 'wrong key'
 
 
     for title, date, link in zip(titles, dates, links):     
